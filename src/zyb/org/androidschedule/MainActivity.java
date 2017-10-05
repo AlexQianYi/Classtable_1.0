@@ -246,17 +246,16 @@ public class MainActivity extends Activity {
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 				float velocityY) {
 			int i = tabs.getCurrentTab();
-			//if the distance between first touch point and second touch point over FLIP_DISANCE, then it is left flying.
-				if(e1.getX() - e2.getX() > FLIP_DISTANCE){
-					if(i<6)
-						tabs.setCurrentTab(i+1);
-				//	float currentX = e2.getX();
-				//	list[i].setRight((int) (inialX - currentX));
-					return true;
-				}
 
-				//�ڶ��������¼���X����ֵ��ȥ��һ�������¼���X����ֵ����FLIP_DISTANCE��Ҳ�������ƴ������һ���
-				else if(e2.getX() - e1.getX() > FLIP_DISTANCE){
+				//if the distance between first touch point and second touch point over FLIP_DISANCE, then it is left flying.
+			if(e1.getX() - e2.getX() > FLIP_DISTANCE){
+				if(i<6)
+					tabs.setCurrentTab(i+1);
+				return true;
+			}
+
+			//if the distance between second touch point and first touch point over FLIP_DISANCE, then it is right flying.
+			else if(e2.getX() - e1.getX() > FLIP_DISTANCE){
 					if(i>0)
 						tabs.setCurrentTab(i-1);	
 					return true;
@@ -288,13 +287,13 @@ public class MainActivity extends Activity {
 	}
 	
 	
-	//��дActivity�е�onTouchEvent����������Activity�ϵĴ����¼�����GestureDetector����
+	//handle activity's click action on GestureDetector
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		return detector.onTouchEvent(event);
 	}
 	
-	//���ò˵���ť
+	//menu button
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -302,10 +301,10 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
-	//������˵��еġ��˳�����ʱ��������ʾ�Ƿ��˳��ĶԻ���
+	//when click exit, pop exit dialog
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		//����AlertDialog.Builder���󣬸ö�����AlterDialog�Ĵ�������AlterDialog�������������Ի���
+		//create AlertDialog.Builder object
 	    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		if(item.getItemId() == R.id.menu_exit){
 			exit(builder);
@@ -320,41 +319,41 @@ public class MainActivity extends Activity {
 	} 
 	
 
-	//�� ����:Ϊ���������ѡ�
+	//add card to main page
 	public void addCard(TabHost.TabSpec spec,String tag,int id,String name){
 		spec = tabs.newTabSpec(tag);
 		spec.setContent(id);
 		spec.setIndicator(name);
 		tabs.addTab(spec);
 	}
-	//�ӷ��������������Ƿ��˳�����ĶԻ��򣬲�ִ��ִ���Ƿ��˳�����
+	//exit dialog
 	public void exit(AlertDialog.Builder builder){
-		//Ϊ�����ĶԻ������ñ��������
+		//heading of dialog
 		builder.setIcon(R.drawable.ic_launcher);
-		builder.setTitle("�˳�����");
-		builder.setMessage("ȷ��Ҫ�˳�����γ̱���");
-		//������ߵİ�ťΪ��ȷ��������������󶨼�������������˳�
-		builder.setPositiveButton("ȷ��", new DialogInterface.OnClickListener() {
+		builder.setTitle("EXIT");
+		builder.setMessage("Sure to exit?");
+		//setting the left button as exit button, click to exit
+		builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				//�˳�Ӧ�ó��򣬼����ٵ����е�activity
+				//exit the application then destory all activities
 				MyApplication.getInstance().exitApp();
 			}
 		});
-		//�����ұߵİ�ťΪ��ȡ��������������󶨼��������������Ȼͣ���ڵ�ǰ����
-		builder.setNegativeButton("ȡ��", new DialogInterface.OnClickListener() {
+		//setting the right button as cancel button, click to cancel exit
+		builder.setNegativeButton("Wait a Minute...", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 								
 			}
 		});
-		//��������ʾ�����ĶԻ���
+		//create and pop dialog
 		builder.create().show();
 	}
 	/*
-	 * Ϊÿһ��list�ṩ����������
+	 * distribute every list a adapter
 	 */
 	@SuppressWarnings("deprecation")
 	public SimpleCursorAdapter adapter(int i){
@@ -363,7 +362,7 @@ public class MainActivity extends Activity {
 	}
 	
 	/*
-	 * ��һ������ʱ�������ݿ��
+	 * create database when run first time
 	 */
 	static class SingleInstance{
 		static SingleInstance si;
