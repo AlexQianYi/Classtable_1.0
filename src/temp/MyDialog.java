@@ -42,16 +42,17 @@ public class MyDialog {
 		adapter=new MyAdapter(context);		
 	}
 	 /*
-	 * 点击未编辑的课程列表跳出”添加课程“对话框
+	 * pop "add course", when click empty classtable
 	 */
 	public void add(final int day,final int n){
-		//填装对话框的view
+
+
 		inflater=LayoutInflater.from(context);
 		view=inflater.inflate(R.layout.edit_shedule,null);
-		findWidgetes();//取部件
+		findWidgetes();//take items
 		final Button course_time1=(Button)view.findViewById(R.id.time1);
 		final Button course_time2=(Button)view.findViewById(R.id.time2);
-		//为两个输入时间的按钮绑定监听器
+		//bandle adapter on time button
 		course_time1.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -69,26 +70,26 @@ public class MyDialog {
 		
 		builder=new AlertDialog.Builder(context)
 		.setIcon(R.drawable.ic_launcher)
-		.setTitle("编辑课程信息")
+		.setTitle("edit course")
 		.setView(view)
-		.setPositiveButton("确认",new OnClickListener(){
+		.setPositiveButton("Confirm",new OnClickListener(){
 			
 			@SuppressWarnings("deprecation")
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
-				if(!(s1=course_name.getText().toString()).equals("")) s1="课程: "+s1;
-				if(!(s2=course_address.getText().toString()).equals("")) s2="地点: "+s2;
-				if(!(s3=course_teacher.getText().toString()).equals("")) s3="老师: "+s3;
-				if(!(s4=course_week.getText().toString()).equals("")) s4="周数: "+s4;
-				if(!(s6=course_time1.getText().toString()).equals("")) s6="时间: "+s6;
+				if(!(s1=course_name.getText().toString()).equals("")) s1="Course Name:"+s1;
+				if(!(s2=course_address.getText().toString()).equals("")) s2="Course Location:"+s2;
+				if(!(s3=course_teacher.getText().toString()).equals("")) s3="Professor:"+s3;
+				if(!(s4=course_week.getText().toString()).equals("")) s4="Number of Week"+s4;
+				if(!(s6=course_time1.getText().toString()).equals("")) s6="Time"+s6;
 				if(!(s7=course_time2.getText().toString()).equals("")) ;
 				
 				if((s5=course_count.getText().toString()).equals("")||s1.equals("")) {
-					Toast.makeText(context, "请正确输入课程及节数！", 3000).show();
+					Toast.makeText(context, "Please Input the Valid Number of Course", 3000).show();
 					return;
 				}
 				else {
-					int i=Integer.parseInt(s5.trim());//i为节数
+					int i=Integer.parseInt(s5.trim());//i为锟斤拷锟斤拷
 					for(int m=0;m<i;m++){
 						MainActivity.db.update(day,n+m+1,s1,s2,s3,s4,s5,s6,s7,Integer.toString(m));
 					}
@@ -100,7 +101,7 @@ public class MyDialog {
 			}
 			
 		})
-		.setNegativeButton("取消", new OnClickListener(){
+		.setNegativeButton("Cancel", new OnClickListener(){
 	
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
@@ -114,16 +115,17 @@ public class MyDialog {
 	}
 	
 	 /*
-	 * 点击已编辑的课程列表跳出”修改课程信息或删除课程信息“对话框
+	 * pop 'edit course', when click exsit courses
 	 */
 	public void modify(final int day,final int n){
-		//填装对话框的view
+
+
 		inflater=LayoutInflater.from(context);
 		view=inflater.inflate(R.layout.edit_shedule,null);
-		findWidgetes();//取部件
+		findWidgetes(); //take items
 		final Button course_time1=(Button)view.findViewById(R.id.time1);
 		final Button course_time2=(Button)view.findViewById(R.id.time2);
-		//为两个输入时间的按钮绑定监听器
+		//bandle adapter on time button
 		course_time1.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -139,11 +141,11 @@ public class MyDialog {
 			}
 		});
 		
-		//从数据库取出旧数据
+		//take data from database
 		main.cursor[day].moveToPosition(n);
 		String [] temp=new String[8];
 		for(int i=0;i<8;i++) {temp[i]=main.cursor[day].getString(i+1);}
-		//将旧数据显示在编辑对话框
+		//display former data on screen
 		if(!temp[0].equals("")) course_name.setText(temp[0].substring(temp[0].indexOf(":")+2));
 		if(!temp[1].equals("")) course_address.setText(temp[1].substring(temp[1].indexOf(":")+2));
 		if(!temp[2].equals("")) course_teacher.setText(temp[2].substring(temp[2].indexOf(":")+2));
@@ -156,25 +158,26 @@ public class MyDialog {
 		
 		builder=new AlertDialog.Builder(context)
 		.setIcon(R.drawable.ic_launcher)
-		.setTitle("修改课程信息")
+		.setTitle("Edit Courses")
 		.setView(view)
-		.setPositiveButton("确认",new OnClickListener(){
+		.setPositiveButton("Confirm",new OnClickListener(){
 	
 			@SuppressWarnings("deprecation")
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
-				if(!(s1=course_name.getText().toString()).equals("")) s1="课程: "+s1;
-				if(!(s2=course_address.getText().toString()).equals("")) s2="地点: "+s2;
-				if(!(s3=course_teacher.getText().toString()).equals("")) s3="老师: "+s3;
-				if(!(s4=course_week.getText().toString()).equals("")) s4="周数: "+s4;
-				if(!(s6=course_time1.getText().toString()).equals(""))s6="时间: "+s6;
+				if(!(s1=course_name.getText().toString()).equals("")) s1="Course Name: "+s1;
+				if(!(s2=course_address.getText().toString()).equals("")) s2="Course Location"+s2;
+				if(!(s3=course_teacher.getText().toString()).equals("")) s3="Professor"+s3;
+				if(!(s4=course_week.getText().toString()).equals("")) s4="Number of Week"+s4;
+				if(!(s6=course_time1.getText().toString()).equals(""))s6="Time"+s6;
 				if(!(s7=course_time2.getText().toString()).equals(""));
 				s5=course_count.getText().toString();
 				main.cursor[day].moveToPosition(n);
-				int n1=Integer.parseInt(main.cursor[day].getString(7).trim());//课程的总节数
-				int n2=Integer.parseInt(main.cursor[day].getString(8).trim());//选中的为该课程的第几节
+				int n1=Integer.parseInt(main.cursor[day].getString(7).trim());//Total number of courses
+				int n2=Integer.parseInt(main.cursor[day].getString(8).trim());//Course be clicked
 				Log.i("kkk",main.cursor[day].getString(7));
-				//如果没有再次输入节数或节数没有变化，根据选中的为第几节更新前后节的数据即可
+
+				//if number of courses not change
 				if(s5.equals("")||n1==Integer.parseInt(s5.trim())) {
 					switch(n2){
 						case 0:
@@ -204,13 +207,14 @@ public class MyDialog {
 					}
 				
 				}
-				//若节数有变化，先确定新节数并赋予旧的数据再更新数据
+
+				//if number of courses changed
 				else{
 					int n3=Integer.parseInt(s5.trim());
-					//扩充节数
+					//expand number of courses
 					if(n3>n1){
 						
-						switch(n2){//更新数据
+						switch(n2){//update data
 						case 0:
 							for(int m=0;m<n3;m++){
 								MainActivity.db.update(day,n+m+1,s1,s2,s3,s4,s5,s6,s7,Integer.toString(m));
@@ -238,9 +242,9 @@ public class MyDialog {
 							}
 					
 					}
-					//缩减节数：删除旧数据再根据新的节数赋予旧数据最后更新新数据
+					//decrease number of courses
 					if(n3<n1){
-						switch(n2){//删除
+						switch(n2){//delete
 							case 0:	
 								for(int m=0;m<n1;m++){
 									MainActivity.db.deleteData(day,n+m+1);
@@ -271,7 +275,7 @@ public class MyDialog {
 						}
 						
 					
-						switch(n2){//更新数据
+						switch(n2){//update data
 							case 0:
 								for(int m=0;m<n3;m++){
 									MainActivity.db.update(day,n+m+1,s1,s2,s3,s4,s5,s6,s7,Integer.toString(m));
@@ -306,7 +310,7 @@ public class MyDialog {
 			}
 			
 		})
-		.setNegativeButton("取消", new OnClickListener(){
+		.setNegativeButton("Cancel", new OnClickListener(){
 	
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
@@ -331,14 +335,14 @@ public class MyDialog {
 	
 	public void TimeSet_Dialog(final TextView text){
 		Calendar c = Calendar.getInstance();
-		// 创建一个TimePickerDialog实例，并把它显示出来。
+		// Create TimePickerDialog instance, then display
 		new TimePickerDialog(main,
-			// 绑定监听器
+			// bandle listener
 			new TimePickerDialog.OnTimeSetListener()
 			{
 				@Override
 				public void onTimeSet(TimePicker tp, int hourOfDay,int minute){
-					//获取完整的时间，在只有一位的数字前面加0
+					//get time
 					StringBuffer s_hour = new StringBuffer();
 					StringBuffer s_minute = new StringBuffer();
 					s_hour.append(hourOfDay);
@@ -349,14 +353,14 @@ public class MyDialog {
 					if(minute<10){
 						s_minute.insert(0,"0");
 					}
-					//将结果显示在edit中
+					//show result in edit
 					text.setText(s_hour.toString() + ":" + s_minute.toString());
 				}
 			}
-		//设置初始时间
+		//setting initial time
 		, c.get(Calendar.HOUR_OF_DAY)
 		, c.get(Calendar.MINUTE)
-		//true表示采用24小时制
+		//if True, use 24-clock hour
 		, true).show();
 	}
 }

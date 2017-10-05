@@ -5,7 +5,8 @@ import java.util.Date;
 
 public class ShareMethod {
 	
-	//获取当天是星期几，这里星期七、一......分别为数字0、1......
+	//get what day of the week it is
+	//return type 0:Sunday, 1:Monday, 2:Tuesday, 3:Wednesday, 4:Thursday, 5:Friday. 6:Saturday
 	public static int getWeekDay(){
 		Calendar calendar=Calendar.getInstance();
 		Date date=new Date(System.currentTimeMillis());
@@ -14,12 +15,14 @@ public class ShareMethod {
 		return weekDay;	
 	}
 	
-	//获取当前的时间,并以字符串"xx:xx"的形式返回
+	//get current time
+	//return type: 00:00
 	public static String getTime(){
 		Calendar c=Calendar.getInstance();
 		int hourOfDay = c.get(Calendar.HOUR_OF_DAY);
 		int minute = c.get(Calendar.MINUTE);		
-		//获取完整的时间，在只有一位的数字前面加0
+		//get standard type time
+		//add 0 if only one digital
 		StringBuffer s_hour = new StringBuffer();
 		StringBuffer s_minute = new StringBuffer();
 		s_hour.append(hourOfDay);

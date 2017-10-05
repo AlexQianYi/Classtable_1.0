@@ -6,25 +6,31 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Application;
 
-//MyApplication类用来存储每一个activity，并实现关闭所有activity的操作
+//MyApplication class save all activities, and close all activities when exit
 public class MyApplication extends Application {
 	
-//定义容activity容器
+	//define activities container
 	private List<Activity> activityList = new LinkedList<Activity>();
 	private static MyApplication instance;
 	
 	private MyApplication(){}
-	//单例设计模式中取得唯一的MyApplication实例
+
+
+	//get MyApplication instance
 	public static MyApplication getInstance(){
 		if(instance == null)
 			instance = new MyApplication();
 		return instance;
 	}
-	//添加activity到容器中
+
+
+	//add activities to container
 	public void addActivity(Activity activity){
 		activityList.add(activity);
 	}
-	//遍历所有的activity并finish
+
+
+	//visit all instances
 	public void exitApp(){
 		for(Activity activity : activityList){
 			if(activity != null)
@@ -32,7 +38,9 @@ public class MyApplication extends Application {
 		}
 		System.exit(0);
 	}
-	//清空缓存
+
+
+	//clean cache
 	@Override
     public void onLowMemory() { 
         super.onLowMemory();     

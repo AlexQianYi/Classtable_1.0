@@ -1,3 +1,6 @@
+/* setting the start picture */
+
+
 package zyb.org.load;
 
 import zyb.org.androidschedule.MainActivity;
